@@ -80,6 +80,10 @@ These skills are located in `.github/skills/` and are ready for use by compatibl
     *   **Essential Production Scripts** for Semantic Navigation, Build, and Testing.
     *   Automate **ADB**, **Emulator**, and **UIAutomator** workflows for AI agents.
 
+*   **[RxJava to Coroutines Migration](.github/skills/rxjava-to-coroutines-migration/SKILL.md)** (`rxjava-to-coroutines-migration`)
+    *   Guide and execute the migration of asynchronous code from **RxJava** to **Kotlin Coroutines** and **Flow**.
+    *   Covers **Base Types**, **Subjects to Hot Flows**, and **Schedulers to Dispatchers**.
+
 ## Setup in Your Project
 
 To equip your AI agent with these skills, you must place them in a location where the agent can discover them.
