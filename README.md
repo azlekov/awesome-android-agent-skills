@@ -16,73 +16,62 @@ When an agent detects you are working on a relevant task (e.g., "Create a verifi
 
 > Learn more at [agentskills.io](https://agentskills.io).
 
+## How Skills Work Together
+
+Skills reference each other and build on shared context. The `Agent.md` file is the foundation — every AI agent interacting with your project reads it implicitly to understand your project's architecture, minimum SDK, and testing philosophy before executing any specific tasks.
+
+```text
+       ┌───────────────────────────────────────────┐
+       │                  Agent.md                 │
+       │     (read by all AI agents implicitly)    │
+       └─────────────────────┬─────────────────────┘
+                             │
+     ┌───────────────┬───────┴───────┬───────────────┐
+     ▼               ▼               ▼               ▼
+┌──────────┐   ┌───────────┐   ┌────────────┐  ┌────────────┐
+│ Architect│   │ UI & Nav  │   │ Migration  │  │ Automation │
+├──────────┤   ├───────────┤   ├────────────┤  ├────────────┤
+│viewmodel │   │compose-ui │   │rx-to-corout│  │testing     │
+│data-layer│   │navigation │   │xml2compose │  │emulator    │
+│clean-arch│   │coil-image │   │            │  │            │
+└──────────┘   └───────────┘   └────────────┘  └────────────┘
+```
+
 ##  Available Skills
 
-These skills are located in `.github/skills/` and are ready for use by compatible agents (like GitHub Copilot Workspace or custom Claude environments).
+These skills are categorized into domains in `.github/skills/` to provide specialized instructions for compatible agents.
 
-*   **[Android Architecture](.github/skills/android-architecture/SKILL.md)** (`android-architecture`)
-    *   Expert guidance on **Clean Architecture**, **Modularization**, and **Dependency Injection** with **Hilt**.
-    *   Ensures strict separation of UI, Domain, and Data layers.
 
-*   **[Jetpack Compose UI](.github/skills/compose-ui/SKILL.md)** (`compose-ui`)
-    *   Best practices for building stateless, performant Composables.
-    *   Focuses on **State Hoisting**, **Modifiers order**, and **Theming**.
+### Architecture
+*   **[Android Architecture](.github/skills/architecture/android-architecture/SKILL.md)** - Expert guidance on **Clean Architecture**, **Modularization**, and **Dependency Injection** with **Hilt**.
+*   **[ViewModel & State](.github/skills/architecture/android-viewmodel/SKILL.md)** - Proper implementation using `StateFlow` and `SharedFlow`.
+*   **[Data Layer & Offline-First](.github/skills/architecture/android-data-layer/SKILL.md)** - **Repository Pattern** with **Room** and **Retrofit**.
 
-*   **[ViewModel & State](.github/skills/android-viewmodel/SKILL.md)** (`android-viewmodel`)
-    *   Proper implementation of **ViewModel** using `StateFlow` for UI state and `SharedFlow` for one-off events.
-    *   Avoids common pitfalls with channel usage and lifecycle collection.
+### UI (Compose & Legacy)
+*   **[Jetpack Compose UI](.github/skills/ui/compose-ui/SKILL.md)** - Best practices for stateless, performant Composables.
+*   **[Compose Navigation](.github/skills/ui/compose-navigation/SKILL.md)** - Type-safe navigation, deep links, and nested graphs.
+*   **[Coil for Jetpack Compose](.github/skills/ui/coil-compose/SKILL.md)** - Expert guidance on image loading in Compose.
+*   **[Accessibility](.github/skills/ui/android-accessibility/SKILL.md)** - Auditing content descriptions, touch targets, and contrast.
 
-*   **[Data Layer & Offline-First](.github/skills/android-data-layer/SKILL.md)** (`android-data-layer`)
-    *   Implements the **Repository Pattern** with **Room** (local) and **Retrofit** (remote).
-    *   Guides the agent to build robust **Offline-First** synchronization logic.
+### Migration
+*   **[XML to Compose Migration](.github/skills/migration/xml-to-compose-migration/SKILL.md)** - Converting XML layouts to idiomatic Jetpack Compose.
+*   **[RxJava to Coroutines Migration](.github/skills/migration/rxjava-to-coroutines-migration/SKILL.md)** - Migrating asynchronous code from RxJava to Coroutines and Flow.
 
-*   **[Accessibility](.github/skills/android-accessibility/SKILL.md)** (`android-accessibility`)
-    *   A rigorous checklist for auditing **Content Descriptions**, **Touch Targets**, and **Contrast**.
-    *   Ensures your app is usable by everyone.
+### Performance
+*   **[Compose Performance Audit](.github/skills/performance/compose-performance-audit/SKILL.md)** - Identify recomposition storms and unstable keys.
+*   **[Gradle Build Performance](.github/skills/performance/gradle-build-performance/SKILL.md)** - Debug and optimize Gradle/Android build times.
 
-*   **[Gradle Build Logic](.github/skills/android-gradle-logic/SKILL.md)** (`android-gradle-logic`)
-    *   Set up **Convention Plugins**, **Version Catalogs**, and **Composite Builds**.
-    *   Configure `build-logic` like a pro to share configurations across modules.
+### Concurrency & Networking
+*   **[Kotlin Concurrency Expert](.github/skills/concurrency_and_networking/kotlin-concurrency-expert/SKILL.md)** - Review and fix Kotlin Coroutines issues.
+*   **[Android Coroutines](.github/skills/concurrency_and_networking/android-coroutines/SKILL.md)** - Best practices for Coroutines execution and scopes.
+*   **[Retrofit Networking](.github/skills/concurrency_and_networking/android-retrofit/SKILL.md)** - Guidance on Retrofit, OkHttp, and Coroutines networking.
 
-*   **[Testing & Screenshots](.github/skills/android-testing/SKILL.md)** (`android-testing`)
-    *   Setup for **Unit**, **Hilt**, and **Screenshot Testing** (Roborazzi).
-    *   Ensures a reliable testing pyramid with standard libraries.
+### Testing & Automation
+*   **[Testing & Screenshots](.github/skills/testing_and_automation/android-testing/SKILL.md)** - Setup for Unit, Hilt, and Screenshot Testing.
+*   **[Android Emulator Automation](.github/skills/testing_and_automation/android-emulator-skill/SKILL.md)** - Essential production scripts for automation and semantic navigation.
 
-*   **[Kotlin Concurrency Expert](.github/skills/kotlin-concurrency-expert/SKILL.md)** (`kotlin-concurrency-expert`)
-    *   Review and fix **Kotlin Coroutines** issues with triage-based workflow.
-    *   Covers **structured concurrency**, **lifecycle safety**, and **exception handling**.
-
-*   **[Compose Performance Audit](.github/skills/compose-performance-audit/SKILL.md)** (`compose-performance-audit`)
-    *   Audit and optimize **Jetpack Compose** runtime performance.
-    *   Identifies **recomposition storms**, **unstable keys**, and **heavy composition work**.
-
-*   **[XML to Compose Migration](.github/skills/xml-to-compose-migration/SKILL.md)** (`xml-to-compose-migration`)
-    *   Convert **XML layouts** to idiomatic **Jetpack Compose**.
-    *   Comprehensive mapping tables for layouts, widgets, and attributes.
-
-*   **[Compose Navigation](.github/skills/compose-navigation/SKILL.md)** (`compose-navigation`)
-    *   Type-safe navigation with **Navigation Compose**.
-    *   Covers **deep links**, **nested graphs**, **adaptive navigation**, and **testing**.
-
-*   **[Retrofit Networking](.github/skills/android-retrofit/SKILL.md)** (`android-retrofit`)
-    *   Expert guidance on **Retrofit**, **OkHttp**, and **Coroutines** for networking.
-    *   Includes configuration for **Serialization**, **Interceptors**, and **Hilt**.
-
-*   **[Gradle Build Performance](.github/skills/gradle-build-performance/SKILL.md)** (`gradle-build-performance`)
-    *   Debug and optimize **Gradle/Android build times**.
-    *   12 optimization patterns including **Configuration Cache**, **KSP migration**, and **CI/CD caching**.
-
-*   **[Coil for Jetpack Compose](.github/skills/coil-compose/SKILL.md)** (`coil-compose`)
-    *   Expert guidance on **Coil** for image loading in **Jetpack Compose**.
-    *   Covers **AsyncImage**, **state management**, and **performance optimization**.
-
-*   **[Android Emulator Automation](.github/skills/android-emulator-skill/SKILL.md)** (`android-emulator-skill`)
-    *   **Essential Production Scripts** for Semantic Navigation, Build, and Testing.
-    *   Automate **ADB**, **Emulator**, and **UIAutomator** workflows for AI agents.
-
-*   **[RxJava to Coroutines Migration](.github/skills/rxjava-to-coroutines-migration/SKILL.md)** (`rxjava-to-coroutines-migration`)
-    *   Guide and execute the migration of asynchronous code from **RxJava** to **Kotlin Coroutines** and **Flow**.
-    *   Covers **Base Types**, **Subjects to Hot Flows**, and **Schedulers to Dispatchers**.
+### Build & Tooling
+*   **[Gradle Build Logic](.github/skills/build_and_tooling/android-gradle-logic/SKILL.md)** - Setup Convention Plugins, Version Catalogs, and Composite Builds.
 
 ## Setup in Your Project
 
@@ -91,16 +80,18 @@ To equip your AI agent with these skills, you must place them in a location wher
 ### Standard Location (VS Code / GitHub Copilot)
 The industry standard location for agent skills is the `.github/skills/` directory at the root of your workspace.
 
-1.  **Copy**: Copy the `.github/skills/` folder from this repository to your project's root.
-2.  **Verify**: Ensure your project structure looks like this:
+1.  **Copy Skills**: Copy the `.github/skills/` folder from this repository to your project's root.
+2.  **Copy Context**: Copy the `Agent.md` file from this repository to your project's root. This file ensures the agent always abides by your architecture and testing standards.
+3.  **Verify**: Ensure your project structure looks like this:
     ```text
     my-android-project/
+    ├── Agent.md
     ├── .github/
     │   └── skills/
-    │       ├── android-architecture/
-    │       │   └── SKILL.md
-    │       └── compose-ui/
-    │           └── SKILL.md
+    │       ├── architecture/
+    │       │   ├── android-architecture/
+    │       │   │   └── SKILL.md
+    │       │   └── ...
     ├── app/
     └── ...
     ```
